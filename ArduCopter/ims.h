@@ -80,7 +80,7 @@ void ecriture_log(std::ofstream *fichier, double roll, double pitch, double yaw_
 void test_pwm(int16_t* pwm_w1,int16_t* pwm_w2,int16_t* pwm_w3,int16_t* pwm_w4,int16_t max_pwm);
 
 // -----------------------------------------------------------------------
-// D�claration des structures
+// Déclaration des structures
 // -----------------------------------------------------------------------
 
 struct Coef_Correcteurs
@@ -101,7 +101,7 @@ class Parametre_Drone
 {
 public:
     // Constructeur de la classe prenant en param�tre le nom du fichier contenant les paramètres
-    Parametre_Drone(std::string nom_fichier);
+    Parametres_Drone(std::string nom_fichier);
 
     // Méthodes (fonctions)
     // Fonction permettant de regrouper les fonctions qui récupérent les données du fichier paramètre
@@ -115,10 +115,11 @@ public:
     struct Coef_Correcteurs get_roulis(void) const;
     struct Coef_Correcteurs get_tangage(void) const;
     struct Coef_Correcteurs get_lacet(void) const;
+    struct Coef_Correcteurs get_consigne_smooth(void) const;
 
 
 private:
-    // fonctions qui permettent de récupérer et initialiser les attributs de la classe "Parametre_Drone"
+    // fonctions qui permettent de récupérer et initialiser les attributs de la classe "Parametres_Drone"
     void set_rotation_min(void);
     void set_rotation_max(void);
     void set_masse_arrachage(void);
@@ -127,6 +128,7 @@ private:
     void set_roulis(void);
     void set_tangage(void);
     void set_lacet(void);
+    void set_consigne_smooth(void);
 
     void aller_a_la_ligne(int num_ligne);
     void aller_a_la_ligne_apres(int num_ligne_apres);
@@ -135,7 +137,7 @@ private:
     float rotation_min, rotation_max;
     float masse_arrachage;
     double coef_trainee, coef_poussee;
-    struct Coef_Correcteurs roulis,tangage,lacet;
+    struct Coef_Correcteurs roulis,tangage,lacet,consigne_smooth;
     std::ifstream fichier;  // on ouvre le fichier en lecture;
 };
 
