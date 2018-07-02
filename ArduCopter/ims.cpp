@@ -105,8 +105,8 @@ void test_pwm(int16_t* pwm_w1,int16_t* pwm_w2,int16_t* pwm_w3,int16_t* pwm_w4,in
 // Focntion de la classe permettant de récupérer les paramètres du drone comptenu dans un fichier
 // ----------------------------------------------------------------------------------------------
 
-// Constructeur de la classe Parametre_Drone en prenant pour argument le nom et l'emplacement du fichier contenant les paramètres du drone
-Parametre_Drone::Parametre_Drone(std::string nom_fichier)
+// Constructeur de la classe Parametres_Drone en prenant pour argument le nom et l'emplacement du fichier contenant les paramètres du drone
+Parametres_Drone::Parametres_Drone(std::string nom_fichier)
 {
     fichier.open(nom_fichier.c_str());  // on ouvre le fichier en lecture
     set_parameters();
@@ -114,7 +114,7 @@ Parametre_Drone::Parametre_Drone(std::string nom_fichier)
 
 // Fonction permettant de faire des retours à la ligne avec le curseur virtuelle à partir du début
 // l'argument num_ligne permet de dire à quelle ligne on souhaite placer notre curseur
-void Parametre_Drone::aller_a_la_ligne(int num_ligne)
+void Parametres_Drone::aller_a_la_ligne(int num_ligne)
 {
     fichier.seekg(1,std::ios::beg); // place le curseur virtuel au début du fichier
     for (int i = 1; i < num_ligne; i++)
@@ -124,7 +124,7 @@ void Parametre_Drone::aller_a_la_ligne(int num_ligne)
 }
 
 // Fonction permettant de faire "num_ligne_apres" retours à la ligne avec notre curseurs virtuels
-void Parametre_Drone::aller_a_la_ligne_apres(int num_ligne_apres)
+void Parametres_Drone::aller_a_la_ligne_apres(int num_ligne_apres)
 {
     fichier.seekg(1,std::ios::cur); // place le curseur à sa position relative, sur lui-même
     for (int i = 1; i < num_ligne_apres; i++)
@@ -134,7 +134,7 @@ void Parametre_Drone::aller_a_la_ligne_apres(int num_ligne_apres)
 }
 
 // Fonction permettant de regrouper les fonctions qui récupérent les données du fichier paramètre
-void Parametre_Drone::set_parameters(void)
+void Parametres_Drone::set_parameters(void)
 {
     set_rotation_min();
     set_rotation_max();
@@ -147,42 +147,42 @@ void Parametre_Drone::set_parameters(void)
     fichier.close();
 }
 
-// fonctions qui permettent de récupérer et initialiser les attributs de la classe "Parametre_Drone"
+// fonctions qui permettent de récupérer et initialiser les attributs de la classe "Parametres_Drone"
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ATTENTION : s'il y a modification du fichier paramètre, il faut changer les lignes de lectures des fonctions qui suivent//
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Parametre_Drone::set_rotation_min(void)
+void Parametres_Drone::set_rotation_min(void)
 {
     aller_a_la_ligne(6);
     fichier >> rotation_min;
 }
 
-void Parametre_Drone::set_rotation_max(void)
+void Parametres_Drone::set_rotation_max(void)
 {
     aller_a_la_ligne_apres(3);
     fichier >> rotation_max;
 }
 
-void Parametre_Drone::set_coef_trainee(void)
+void Parametres_Drone::set_coef_trainee(void)
 {
     aller_a_la_ligne_apres(3);
     fichier >> coef_trainee;
 }
 
-void Parametre_Drone::set_coef_poussee(void)
+void Parametres_Drone::set_coef_poussee(void)
 {
     aller_a_la_ligne_apres(3);
     fichier >> coef_poussee;
 }
 
-void Parametre_Drone::set_masse_arrachage(void)
+void Parametres_Drone::set_masse_arrachage(void)
 {
     aller_a_la_ligne_apres(3);
     fichier >> masse_arrachage;
 }
 
-void Parametre_Drone::set_roulis(void)
+void Parametres_Drone::set_roulis(void)
 {
     aller_a_la_ligne_apres(6);
     fichier >> roulis.xn;
@@ -196,7 +196,7 @@ void Parametre_Drone::set_roulis(void)
     fichier >> roulis.yn_2;
 }
 
-void Parametre_Drone::set_tangage(void)
+void Parametres_Drone::set_tangage(void)
 {
     aller_a_la_ligne_apres(6);
     fichier >> tangage.xn;
@@ -210,7 +210,7 @@ void Parametre_Drone::set_tangage(void)
     fichier >> tangage.yn_2;
 }
 
-void Parametre_Drone::set_lacet(void)
+void Parametres_Drone::set_lacet(void)
 {
     aller_a_la_ligne_apres(6);
     fichier >> lacet.xn;
@@ -222,46 +222,65 @@ void Parametre_Drone::set_lacet(void)
     lacet.xn_2 = 0;
 }
 
-// fonctions qui permettent de retourner les attributs de la classe "Parametre_Drone"
+void Parametres_Drone::set_consigne_smooth(void)
+{
+    aller_a_la_ligne_apres(6);
+    fichier >> tangage.xn;
+    aller_a_la_ligne_apres(1);
+    fichier >> tangage.xn_1;
+    aller_a_la_ligne_apres(1);
+    fichier >> tangage.xn_2;
+    aller_a_la_ligne_apres(1);
+    fichier >> tangage.yn_1;
+    aller_a_la_ligne_apres(1);
+    fichier >> tangage.yn_2;
+}
 
-float Parametre_Drone::get_rotation_min(void) const
+// fonctions qui permettent de retourner les attributs de la classe "Parametres_Drone"
+
+float Parametres_Drone::get_rotation_min(void) const
 {
     return rotation_min;
 }
 
-float Parametre_Drone::get_rotation_max(void) const
+float Parametres_Drone::get_rotation_max(void) const
 {
     return rotation_max;
 }
 
-float Parametre_Drone::get_masse_arrachage(void) const
+float Parametres_Drone::get_masse_arrachage(void) const
 {
     return masse_arrachage;
 }
 
-double Parametre_Drone::get_coef_trainee(void) const
+double Parametres_Drone::get_coef_trainee(void) const
 {
     return coef_trainee;
 }
 
-double Parametre_Drone::get_coef_poussee(void) const
+double Parametres_Drone::get_coef_poussee(void) const
 {
     return coef_poussee;
 }
 
-struct Coef_Correcteurs Parametre_Drone::get_roulis(void) const
+struct Coef_Correcteurs Parametres_Drone::get_roulis(void) const
 {
     return roulis;
 }
 
-struct Coef_Correcteurs Parametre_Drone::get_tangage(void) const
+struct Coef_Correcteurs Parametres_Drone::get_tangage(void) const
 {
     return tangage;
 }
 
-struct Coef_Correcteurs Parametre_Drone::get_lacet(void) const
+struct Coef_Correcteurs Parametres_Drone::get_lacet(void) const
 {
     return lacet;
+}
+
+struct Coef_Correcteurs Parametres_Drone::get_consigne_smooth(void) const
+{
+    return consigne_smooth;
 }
 
 // ----------------------------------------------------------------------------
